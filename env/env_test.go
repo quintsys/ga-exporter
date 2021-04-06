@@ -20,11 +20,11 @@ func TestLookup(t *testing.T) {
 		{
 			name: "existing env value",
 			key:  "FOO",
-			want: "bar",
+			want: "",
 		},
 	}
 
-	err := os.Setenv("FOO", "bar")
+	err := os.Setenv("FOO", "")
 	if err != nil {
 		log.Fatal(err)
 	}
