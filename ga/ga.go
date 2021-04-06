@@ -6,14 +6,12 @@ import (
 
 	"google.golang.org/api/analytics/v3"
 	"google.golang.org/api/googleapi"
-	"google.golang.org/api/option"
 )
 
 // ViewData pulls data from a Google Analytics view
 func ViewData(dimensions string) (*analytics.GaData, error) {
 	ctx := context.Background()
-	analyticsService, err := analytics.NewService(ctx,
-		option.WithCredentialsFile("kr-key.json"))
+	analyticsService, err := analytics.NewService(ctx)
 	if err != nil {
 		return nil, err
 	}
