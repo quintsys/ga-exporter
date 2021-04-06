@@ -4,14 +4,17 @@ import (
 	"context"
 	"log"
 
+	"github.com/quintsys/ga-exporter/env"
 	"google.golang.org/api/analytics/v3"
 	"google.golang.org/api/googleapi"
+	"google.golang.org/api/option"
 )
 
 // ViewData pulls data from a Google Analytics view
 func ViewData(dimensions string) (*analytics.GaData, error) {
 	ctx := context.Background()
-	analyticsService, err := analytics.NewService(ctx)
+	json := env.Lookup("GOOGLE_APPLICATION_CREDENTIALS", "{}")
+	analyticsService, err := analytics.NewService(ctx, option.WithCredentialsJSON([]byte(json)))
 	if err != nil {
 		return nil, err
 	}
