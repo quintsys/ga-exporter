@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 
-	"github.com/quintsys/ga-exporter/env"
 	"google.golang.org/api/analytics/v3"
 	"google.golang.org/api/googleapi"
 	"google.golang.org/api/option"
@@ -13,15 +12,14 @@ import (
 // ViewData pulls data from a Google Analytics view
 func ViewData(dimensions string) (*analytics.GaData, error) {
 	ctx := context.Background()
-	json := env.Lookup("GOOGLE_APPLICATION_CREDENTIALS", "{}")
-	analyticsService, err := analytics.NewService(ctx, option.WithCredentialsJSON([]byte(json)))
+	cfg := newConfig()
+	analyticsService, err := analytics.NewService(ctx, option.WithCredentialsJSON(cfg.credentials))
 	if err != nil {
 		return nil, err
 	}
 
-	// TODO: load view id and date paramaters from a config file or env
 	dataGaGetCall := analyticsService.Data.Ga.
-		Get("ga:115848806", "3daysAgo", "yesterday", "ga:sessions").
+		Get(cfg.viewID, cfg.startDate, cfg.endDate, cfg.metric).
 		Dimensions(dimensions)
 
 	gaData, err := dataGaGetCall.Do()
