@@ -19,8 +19,9 @@ type App struct {
 // Start sets the handlers and starts the server
 func (a *App) Start() {
 	http.Handle("/", middleware.LogWrap(a.Index))
-	http.Handle("/ad", middleware.LogWrap(a.Ad))
-	http.Handle("/origin", middleware.LogWrap(a.Origin))
+
+	http.Handle("/ad", middleware.LogWrap(middleware.PostOnly(a.Ad)))
+	http.Handle("/origin", middleware.LogWrap(middleware.PostOnly(a.Origin)))
 
 	addr := fmt.Sprintf(":%s", a.Port)
 	log.Printf("Starting ga-exporter on %s", addr)
