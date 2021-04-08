@@ -11,9 +11,9 @@ import (
 
 // ViewData pulls data from a Google Analytics view
 func ViewData(dimensions string) (*analytics.GaData, error) {
-	ctx := context.Background()
 	cfg := newConfig()
-	analyticsService, err := analytics.NewService(ctx, option.WithCredentialsJSON(cfg.credentials))
+	opt := option.WithCredentialsJSON(cfg.credentials)
+	analyticsService, err := analytics.NewService(context.Background(), opt)
 	if err != nil {
 		return nil, err
 	}
