@@ -1,2 +1,3 @@
 # ga-exporter
-Export some visitor information from Google Analytics using API v3
+Exports data about the origin of visits to a website from Google Analytics using
+API v3.
