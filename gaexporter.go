@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/quintsys/ga-exporter/env"
-	"github.com/quintsys/ga-exporter/middleware"
+	m "github.com/quintsys/ga-exporter/middleware"
 	"github.com/quintsys/ga-exporter/routes"
 )
 
@@ -18,10 +18,18 @@ type App struct {
 
 // Start sets the handlers and starts the server
 func (a *App) Start() {
-	http.Handle("/", middleware.LogWrap(a.Index))
+	http.HandleFunc("/",
+		m.ChainMiddlewares(a.Index, m.Logger, m.ContentTypeJSON))
 
-	http.Handle("/ad", middleware.LogWrap(middleware.PostOnly(a.Ad)))
-	http.Handle("/origin", middleware.LogWrap(middleware.PostOnly(a.Origin)))
+	middlewares := []m.Middleware{
+		m.Logger,
+		m.PostOnly,
+		m.ContentTypeJSON,
+	}
+	http.HandleFunc("/ad",
+		m.ChainMiddlewares(a.Ad, middlewares...))
+	http.HandleFunc("/origin",
+		m.ChainMiddlewares(a.Origin, middlewares...))
 
 	addr := fmt.Sprintf(":%s", a.Port)
 	log.Printf("Starting ga-exporter on %s", addr)
