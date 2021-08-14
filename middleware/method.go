@@ -4,17 +4,14 @@ import (
 	"net/http"
 )
 
-// PostOnly allows POST requests only
-func PostOnly(f func(w http.ResponseWriter, r *http.Request)) func(
-	http.ResponseWriter, *http.Request) {
-
+// PostOnly is a middleware that only allows POST requests
+func PostOnly(h http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "POST":
-			f(w, r)
+			h.ServeHTTP(w, r)
 		default:
 			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
 	})
-
 }
