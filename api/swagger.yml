@@ -1,0 +1,195 @@
+---
+swagger: "2.0"
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  title: Google Analytics Exporter API
+  version: 0.0.1
+  description: |
+    The GA Exporter API makes use of the [Core Reporting API version 
+    3.0](https://developers.google.com/analytics/devguides/reporting/core/v3/reference) 
+    to access information about visitors to a web property. It pulls data from 
+    an existing and preconfigured 
+    [reporting view](https://support.google.com/analytics/answer/2649553?hl=en) 
+    in a Google Analytics account.
+
+    # Errors
+    The API uses standard HTTP status codes to indicate the success or failure
+    of the API call. The body of the response will be JSON in the following
+    format:
+    ```
+    {
+      "code": 405,
+      "message": "method POST is not allowed, but [GET] are"
+    }
+    ```
+  contact:
+    name: Ga Exporter API mantainers
+    email: contact@quintsys.com
+    url: https://github.com/quintsys/ga-exporter
+
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+produces:
+- application/json
+schemes:
+- http
+
+################################################################################
+#                                   Tags                                       #
+################################################################################
+tags:
+  - name: Visitors
+    description: |
+      Visitors are extracted from a configured Google Analytics view.
+       - Each unique visitor is represented by a unique `ClientId`.
+       - The list of dimensions to be exported is predefined and can't be 
+       modified using configuration parameters.
+
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
+  /:
+    get:
+      tags:
+        - Visitors
+      operationId: VisitorList
+      responses:
+        200:
+          description: | 
+            Returns data about visitors
+          schema:
+            type: array
+            maxItems: 5000
+            items:
+              $ref: "#/definitions/visitor"
+        405:
+          description: Method Not Allowed
+          schema:
+            $ref: "#/definitions/error_method_not_allowed"
+        406:
+          description: Not Acceptable
+          schema:
+            $ref: "#/definitions/error_not_acceptable"
+        429:
+          description: Too many request
+          schema:
+            $ref: "#/definitions/error_too_many_requests"
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/error_internal_server_error"
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: "#/definitions/error_service_unavailable"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/error"
+
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  error_method_not_allowed:
+    type: object
+    properties: 
+      code:
+        type: integer
+        example: 405
+      message: 
+        type: string
+        example: method POST is not allowed, but [GET] are 
+  error_not_acceptable:
+    type: object
+    properties: 
+      code:
+        type: integer
+        example: 406
+      message: 
+        type: string
+        example: unsupported media type requested, only [application/json] are available
+  error_too_many_requests:
+    type: object
+    properties: 
+      code:
+        type: integer
+        example: 429
+      message: 
+        type: string
+        example: too many requests
+  error_internal_server_error:
+    type: object
+    properties: 
+      code:
+        type: integer
+        example: 500
+      message: 
+        type: string
+        example: Internal Server Error
+  error_service_unavailable:
+    type: object
+    properties: 
+      code:
+        type: integer
+        example: 503
+      message: 
+        type: string
+        example: service is not available
+  error:
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        type: integer
+        format: int64
+        minimum: 400
+        maximum: 599
+      message:
+        type: string
+        minLength: 1
+        maxLength: 255
+  visitor:
+    type: object
+    required:
+      - clientId
+    properties:
+      clientId:
+        type: string
+        minLength: 1
+        maxLength: 36
+        x-order: 0
+      campaign:
+        type: string
+        minLength: 0
+        maxLength: 100
+      source:
+        type: string
+        minLength: 0
+        maxLength: 50
+      medium:
+        type: string
+        minLength: 0
+        maxLength: 50
+      keyword:
+        type: string
+        minLength: 0
+        maxLength: 255
+      adGroup:
+        type: string
+        minLength: 0
+        maxLength: 255
+      adContent:
+        type: string
+        minLength: 0
+        maxLength: 255
+      adMatchedQuery:
+        type: string
+        minLength: 0
+        maxLength: 255

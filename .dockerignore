@@ -2,6 +2,6 @@
 .github/
 .dockerignore
 .gitignore
-.Dockerfile
+Dockerfile
 Makefile
 README.md

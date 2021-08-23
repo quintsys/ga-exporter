@@ -1,14 +1,36 @@
+ARG PORT=9000
+
+########################################
+# Stage 1: builder
+########################################
 FROM golang:1.16.6-alpine3.14 as builder
 
-ENV GOFLAGS=-mod=vendor
+# set destination for COPY
+WORKDIR /src
 
-COPY . /go/src/github.com/quintsys/ga-exporter/
-WORKDIR /go/src/github.com/quintsys/ga-exporter
+# download go modules
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
 
-RUN CGO_ENABLED=0 go build -a -v
+# copy the source code
+COPY . ./
 
-FROM alpine:3.14
-COPY --from=builder /go/src/github.com/quintsys/ga-exporter/ga-exporter /opt/
+# build the API
+RUN CGO_ENABLED=0 go build -v ./cmd/gaexporter/gaexporterd.go
 
-EXPOSE 8080
-CMD ["/opt/ga-exporter"]
+
+#########################################
+## Stage 2: runner
+#########################################
+FROM scratch as runner
+
+## copy just the compiled binary
+COPY --from=builder /src/gaexporterd /opt/
+
+# configure host and port for the API
+ARG PORT
+ENV HOST=0.0.0.0
+ENV PORT=$PORT
+
+CMD ["/opt/gaexporterd"]
