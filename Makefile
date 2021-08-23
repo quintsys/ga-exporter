@@ -10,6 +10,7 @@ all: | $(dir_target) swag goget
 $(dir_present):
 	@echo "Folder $(directory) exists. Deleting generated files."
 	@rm -vrf "$(directory)/cmd"|| true && \
+		rm -vrf "$(directory)/models" || true && \
 		rm -vrf "$(directory)/restapi/operations" || true && \
 		rm -vf "$(directory)/restapi/doc.go" || true && \
 		rm -vf "$(directory)/restapi/embedded_spec.go" || true && \
