@@ -1,4 +1,6 @@
-name: Go
+name: Continuous Integration
+env:
+  GO111MODULE: on
 
 on:
   push:
@@ -7,10 +9,16 @@ on:
     branches: [ main ]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
+    
+    - name: Cancel Previous Runs
+      uses: styfle/cancel-workflow-action@0.9.1
+      with:
+        all_but_latest: true
+        access_token: ${{ github.token }}
+
     - name: Checkout repository
       uses: actions/checkout@v2
 
@@ -19,7 +27,7 @@ jobs:
       with:
         go-version: 1.16
 
-    - name: Go cache
+    - name: Cache modules
       uses: actions/cache@v2
       with:
         path: |
@@ -29,8 +37,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
+    - name: Run go fmt
+      run: diff -u <(echo -n) <(gofmt -d -s .)
+
+    - name: Run go vet
+      run: go vet ./...
+
     - name: Build
       run: go build -v ./...
 
     - name: Test
-      run: go test -v ./...
+      run: go test -v -race -coverprofile coverage.txt -covermode atomic ./...
