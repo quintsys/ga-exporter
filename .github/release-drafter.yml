@@ -1,0 +1,40 @@
+name-template: 'version $RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
+categories:
+  - title: 'Added'
+    label: 'enhancement'
+  - title: 'Changed'
+    label: 'change'
+  - title: 'Fixed'
+    label: 'bug'
+  - title: 'Security'
+    label: 'dependencies'
+      
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+  
+exclude-labels:
+  - reverted
+  - no-changelog
+  - skip-changelog
+  - invalid
+  
+template: |
+  ## [$RESOLVED_VERSION](https://github.com/quintsys/ga-exporter/compare/$PREVIOUS_TAG...$RESOLVED_VERSION)
+  $CHANGES
+replacers:
+  - search: '/CVE-(\d{4})-(\d+)/g'
+    replace: 'https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-$1-$2'
+  - search: '@dependabot-preview'
+    replace: '@dependabot'
