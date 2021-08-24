@@ -1,0 +1,50 @@
+name: Release Drafter
+
+on:
+  push:
+    paths-ignore:
+      - ".VERSION"
+    branches:
+      - master
+
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.drafter.outputs.tag_name }}
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        id: drafter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  update_version:
+    runs-on: ubuntu-latest
+    needs: update_release_draft
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2.3.4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update .VERSION file
+        run: |
+          echo "${{ needs.update_release_draft.outputs.version }}" > .VERSION
+      - name: Add and commit changes
+        if: ${{ success() }}
+        env:
+          INPUT_EMAIL: '41898282+github-actions[bot]@users.noreply.github.com'
+          INPUT_NAME: 'github-actions[bot]'
+        run: |
+          if [[ -z "$(git status --porcelain)" ]]; then \
+            echo 'nothing to commit'; \
+          else \
+            git config user.email "$INPUT_EMAIL"; \
+            git config user.name "$INPUT_NAME"; \
+            git add .VERSION; \
+            git commit -m 'Update version in .VERSION file'; \
+          fi
+      - name: Push changes
+        if: ${{ success() }}
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN  }}
+          branch: ${{ github.ref }}
