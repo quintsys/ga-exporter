@@ -1,4 +1,4 @@
-# Contributing to Go
+# Contributing to Ga-Exporter
 
 `ga-exporter` is an open source project. We appreciate your help!
 
