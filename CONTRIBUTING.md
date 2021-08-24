@@ -9,5 +9,5 @@ See the [security policy](https://github.com/quintsys/ga-exporter/security/polic
 
 ## Contributing code
 
-Unless otherwise noted, the Go source files are distributed under
+Unless otherwise noted, the source files are distributed under
 the MIT license found in the LICENSE file.
