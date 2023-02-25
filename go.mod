@@ -17,6 +17,6 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	go.mongodb.org/mongo-driver v1.7.1 // indirect
 	golang.org/x/net v0.0.0-20210813160813-60bc85c4be6d
-	golang.org/x/sys v0.0.0-20210816183151-1e6c022a8912 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	golang.org/x/text v0.3.7 // indirect
 )
