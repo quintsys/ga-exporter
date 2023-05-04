@@ -50,7 +50,8 @@ func NewGaexporterAPI(spec *loads.Document) *GaexporterAPI {
 	}
 }
 
-/*GaexporterAPI The GA Exporter API makes use of the [Core Reporting API version
+/*
+GaexporterAPI The GA Exporter API makes use of the [Core Reporting API version
 3.0](https://developers.google.com/analytics/devguides/reporting/core/v3/reference)
 to access information about visitors to a web property. It pulls data from
 an existing and preconfigured
@@ -62,10 +63,12 @@ The API uses standard HTTP status codes to indicate the success or failure
 of the API call. The body of the response will be JSON in the following
 format:
 ```
-{
-  "code": 405,
-  "message": "method POST is not allowed, but [GET] are"
-}
+
+	{
+	  "code": 405,
+	  "message": "method POST is not allowed, but [GET] are"
+	}
+
 ```
 */
 type GaexporterAPI struct {

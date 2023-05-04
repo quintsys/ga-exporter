@@ -16,8 +16,8 @@ import (
 // VisitorListOKCode is the HTTP code returned for type VisitorListOK
 const VisitorListOKCode int = 200
 
-/*VisitorListOK Returns data about visitors
-
+/*
+VisitorListOK Returns data about visitors
 
 swagger:response visitorListOK
 */
@@ -65,7 +65,8 @@ func (o *VisitorListOK) WriteResponse(rw http.ResponseWriter, producer runtime.P
 // VisitorListMethodNotAllowedCode is the HTTP code returned for type VisitorListMethodNotAllowed
 const VisitorListMethodNotAllowedCode int = 405
 
-/*VisitorListMethodNotAllowed Method Not Allowed
+/*
+VisitorListMethodNotAllowed Method Not Allowed
 
 swagger:response visitorListMethodNotAllowed
 */
@@ -109,7 +110,8 @@ func (o *VisitorListMethodNotAllowed) WriteResponse(rw http.ResponseWriter, prod
 // VisitorListNotAcceptableCode is the HTTP code returned for type VisitorListNotAcceptable
 const VisitorListNotAcceptableCode int = 406
 
-/*VisitorListNotAcceptable Not Acceptable
+/*
+VisitorListNotAcceptable Not Acceptable
 
 swagger:response visitorListNotAcceptable
 */
@@ -153,7 +155,8 @@ func (o *VisitorListNotAcceptable) WriteResponse(rw http.ResponseWriter, produce
 // VisitorListTooManyRequestsCode is the HTTP code returned for type VisitorListTooManyRequests
 const VisitorListTooManyRequestsCode int = 429
 
-/*VisitorListTooManyRequests Too many request
+/*
+VisitorListTooManyRequests Too many request
 
 swagger:response visitorListTooManyRequests
 */
@@ -197,7 +200,8 @@ func (o *VisitorListTooManyRequests) WriteResponse(rw http.ResponseWriter, produ
 // VisitorListInternalServerErrorCode is the HTTP code returned for type VisitorListInternalServerError
 const VisitorListInternalServerErrorCode int = 500
 
-/*VisitorListInternalServerError Internal Server Error
+/*
+VisitorListInternalServerError Internal Server Error
 
 swagger:response visitorListInternalServerError
 */
@@ -241,7 +245,8 @@ func (o *VisitorListInternalServerError) WriteResponse(rw http.ResponseWriter, p
 // VisitorListServiceUnavailableCode is the HTTP code returned for type VisitorListServiceUnavailable
 const VisitorListServiceUnavailableCode int = 503
 
-/*VisitorListServiceUnavailable Service Unavailable
+/*
+VisitorListServiceUnavailable Service Unavailable
 
 swagger:response visitorListServiceUnavailable
 */
@@ -282,7 +287,8 @@ func (o *VisitorListServiceUnavailable) WriteResponse(rw http.ResponseWriter, pr
 	}
 }
 
-/*VisitorListDefault Unexpected error
+/*
+VisitorListDefault Unexpected error
 
 swagger:response visitorListDefault
 */

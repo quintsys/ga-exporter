@@ -29,10 +29,10 @@ func NewVisitorList(ctx *middleware.Context, handler VisitorListHandler) *Visito
 	return &VisitorList{Context: ctx, Handler: handler}
 }
 
-/* VisitorList swagger:route GET / Visitors visitorList
+/*
+	VisitorList swagger:route GET / Visitors visitorList
 
 VisitorList visitor list API
-
 */
 type VisitorList struct {
 	Context *middleware.Context
