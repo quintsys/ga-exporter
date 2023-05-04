@@ -16,6 +16,5 @@ require (
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/mailru/easyjson v0.7.7 // indirect
 	go.mongodb.org/mongo-driver v1.7.1 // indirect
-	golang.org/x/net v0.0.0-20220722155237-a158d28d115b
-	golang.org/x/text v0.3.8 // indirect
+	golang.org/x/net v0.7.0
 )
