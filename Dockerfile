@@ -3,7 +3,7 @@ ARG PORT=9000
 ########################################
 # Stage 1: builder
 ########################################
-FROM golang:1.16.6-alpine3.14 as builder
+FROM golang:1.19.9-alpine3.17 as builder
 
 # set destination for COPY
 WORKDIR /src
