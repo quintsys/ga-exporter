@@ -32,7 +32,7 @@ jobs:
           all_but_latest: true
           access_token: ${{ github.token }}    
       - name: Checkout source code
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3.5.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Update .VERSION file
